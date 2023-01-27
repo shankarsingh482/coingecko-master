@@ -17,27 +17,25 @@ const ApiTable = ({
     const [rows, setRows] = useState([]);
     // hook to validate request on or off...
     const [request, setRequest] = useState(false);
-const getURL = (isCoinDetail)=>{
-    if(isCoinDetail)
-    {
-        return  `https://api.coingecko.com/api/v3/coins/${params && params.id}`
+    const getURL = (isCoinDetail) => {
+        if (isCoinDetail) {
+            return `https://api.coingecko.com/api/v3/coins/${params && params.id}`
+        }
+        else
+            return `https://api.coingecko.com/api/v3/coins/${apiEndPoint ? apiEndPoint : ''}?${params}&per_page=${perPage}&page=${page}`
     }
-    else
-    return `https://api.coingecko.com/api/v3/coins/${apiEndPoint ? apiEndPoint : ''}?${params}&per_page=${perPage}&page=${page}`
-}
     // async await request to make API call using Axios
     async function makeApiCall() {
         setRequest(true);
         try {
             setRequest(true);
-            const response =  await axios.get(
+            const response = await axios.get(
                 getURL(isCoinDetail)
             );
             setRequest(false);
             if (response && !isCoinDetail)
                 setRows(response.data);
-            else if( response && isCoinDetail)
-            {
+            else if (response && isCoinDetail) {
                 setRows([response.data]);
             }
             else
@@ -56,10 +54,9 @@ const getURL = (isCoinDetail)=>{
         }
     }
 
-    // api call in useffect only if apiEndPoint is passed
     useEffect(() => {
-            makeApiCall();
-    },[]);
+        makeApiCall();
+    }, []);
 
     return (
         <Box sx={{ height: "100vh", width: "100vw" }}>
@@ -76,7 +73,7 @@ const getURL = (isCoinDetail)=>{
                 }}
                 experimentalFeatures={{ newEditingApi: true }}
                 sx={styleClass}
-                getRowHeight={()=>RowHeight}
+                getRowHeight={() => RowHeight}
             />
         </Box>
     );

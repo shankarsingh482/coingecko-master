@@ -65,7 +65,6 @@ const columns = [
           .filter((link) => link !== "")
           // map the rest array to display data in the table
           .map((link, i) => {
-            console.log('33333', link)
             return (
               <span key={i}>
                 <a style={{ fontWeight: "bold" }} href={link}>{link}</a>
