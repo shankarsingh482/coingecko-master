@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const ApiTable = ({
     columns,
@@ -15,6 +16,7 @@ const ApiTable = ({
     styleClass,
 }) => {
     const [rows, setRows] = useState([]);
+    const [error, setError] = useState(null)
     // hook to validate request on or off...
     const [request, setRequest] = useState(false);
     const getURL = (isCoinDetail) => {
@@ -38,19 +40,10 @@ const ApiTable = ({
             else if (response && isCoinDetail) {
                 setRows([response.data]);
             }
-            else
-                setRows()
         } catch (error) {
-            if (error.response) {
-                //response status is an error code
-                console.log(error.response.status);
-            } else if (error.request) {
-                //response not received though the request was sent
-                console.log(error.request);
-            } else {
-                //an error occurred when setting up the request
-                console.log(error.message);
-            }
+            setRequest(false);
+            setError('Something is broken Please check after some time  !!!!')
+            throw new Error("Something is broken Please check after some time");
         }
     }
 
@@ -59,22 +52,26 @@ const ApiTable = ({
     }, []);
 
     return (
+
         <Box sx={{ height: "100vh", width: "100vw" }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={10}
-                loading={request}
-                rowsPerPageOptions={[5]}
-                checkboxSelection={false}
-                disableSelectionOnClick
-                onRowClick={(row) => {
-                    if (onRowClick) onRowClick(row)
-                }}
-                experimentalFeatures={{ newEditingApi: true }}
-                sx={styleClass}
-                getRowHeight={() => RowHeight}
-            />
+            <ErrorBoundary>
+                <DataGrid
+                    rows={rows}
+                    error={error}
+                    columns={columns}
+                    pageSize={10}
+                    loading={request}
+                    rowsPerPageOptions={[5]}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                    onRowClick={(row) => {
+                        if (onRowClick) onRowClick(row)
+                    }}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    sx={styleClass}
+                    getRowHeight={() => RowHeight}
+                />
+            </ErrorBoundary>
         </Box>
     );
 };

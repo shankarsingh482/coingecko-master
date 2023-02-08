@@ -7,3 +7,7 @@
 .coinDetails {
     cursor: default;
 }
+
+.coinListdetails {
+    width: 100px;
+}

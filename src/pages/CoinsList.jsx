@@ -2,6 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import ApiTable from "../components/ApiTable";
+import ErrorBoundary from "../components/ErrorBoundary";
+
 
 // defining column name and field name acc to MUI DataGrid
 const columns = [
@@ -45,18 +47,20 @@ const CoinsList = () => {
   const navigate = useNavigate();
 
   return (
-    <Box className="coinList" sx={{ height: "100vh", width: "100vw" }}>
-      <ApiTable
-        columns={columns}
-        apiEndPoint="markets"
-        params="vs_currency=EUR&order=market_cap_desc"
-        page={1}
-        perPage={100}
-        onRowClick={(row) => {
-          navigate(`/coin/${row.id}`);
-        }}
-      />
-    </Box>
+    <ErrorBoundary>
+      <Box className="coinList">
+        <ApiTable
+          columns={columns}
+          apiEndPoint="markets"
+          params="vs_currency=EUR&order=market_cap_desc"
+          page={1}
+          perPage={100}
+          onRowClick={(row) => {
+            navigate(`/coin/${row.id}`);
+          }}
+        />
+      </Box>
+    </ErrorBoundary>
   );
 };
 export default CoinsList;
