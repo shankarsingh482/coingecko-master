@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import './custom.css'
-import ApiTable from '../components/ApiTable'
+import "./custom.css";
+import ApiTable from "../components/ApiTable";
 import { useParams } from "react-router-dom";
 
 // defining column name and field name acc to MUI DataGrid
@@ -34,10 +34,7 @@ const columns = [
     field: "description",
     headerName: "Description",
     renderCell: (params) => (
-      <div
-        dangerouslySetInnerHTML={{ __html: params.row.description.en }}
-      />
-
+      <div dangerouslySetInnerHTML={{ __html: params.row.description.en }} />
     ),
     width: 500,
   },
@@ -67,7 +64,9 @@ const columns = [
           .map((link, i) => {
             return (
               <span key={i}>
-                <a style={{ fontWeight: "bold" }} href={link}>{link}</a>
+                <a style={{ fontWeight: "bold" }} href={link}>
+                  {link}
+                </a>
               </span>
             );
           })}

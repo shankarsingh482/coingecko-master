@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import ApiTable from "../components/ApiTable";
 import ErrorBoundary from "../components/ErrorBoundary";
 
-
 // defining column name and field name acc to MUI DataGrid
 const columns = [
   {
