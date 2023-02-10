@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import "./custom.css";
-import ApiTable from "../components/ApiTable";
+import CoinResponse from "../components/CoinResponse";
 import { useParams } from "react-router-dom";
 
 // defining column name and field name acc to MUI DataGrid
@@ -83,15 +83,21 @@ const CoinDetails = () => {
   const params = useParams();
 
   return (
-    <Box className="coinDetails" sx={{ height: "100vh", width: "100vw" }}>
-      <ApiTable
+    <Box className="coinDetails">
+      <CoinResponse
         columns={columns}
         page={1}
         perPage={100}
         RowHeight="auto"
+        density="compact"
         styleClass={{
           whiteSpace: "normal",
           wordWrap: "break-word",
+          width: "80%",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
         isCoinDetail={true}
         params={params}

@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import ApiTable from "../components/ApiTable";
+import CoinResponse from "../components/CoinResponse";
 import ErrorBoundary from "../components/ErrorBoundary";
 
 // defining column name and field name acc to MUI DataGrid
@@ -10,7 +10,7 @@ const columns = [
     field: "image",
     headerName: "Image",
     renderCell: (params) => (
-      <img src={params.value} height="50" alt={params.value} />
+      <img src={params.value} height="35" alt={params.value} />
     ),
     width: 100,
   },
@@ -36,6 +36,7 @@ const columns = [
   },
   {
     field: "low_24h",
+    flex: 1,
     width: 200,
     headerName: "Low 24Hrs Price",
   },
@@ -48,7 +49,7 @@ const CoinsList = () => {
   return (
     <ErrorBoundary>
       <Box className="coinList">
-        <ApiTable
+        <CoinResponse
           columns={columns}
           apiEndPoint="markets"
           params="vs_currency=EUR&order=market_cap_desc"
@@ -56,6 +57,14 @@ const CoinsList = () => {
           perPage={100}
           onRowClick={(row) => {
             navigate(`/coin/${row.id}`);
+          }}
+          density="standard"
+          styleClass={{
+            width: "80%",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         />
       </Box>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import axios from "axios";
-import ErrorBoundary from "../components/ErrorBoundary";
+import ErrorBoundary from "./ErrorBoundary";
+import { CustomPagination, StyledDataGrid } from "./TableStyle";
 
-const ApiTable = ({
+const CoinResponse = ({
   columns,
   apiEndPoint,
   page = 1,
@@ -15,11 +15,13 @@ const ApiTable = ({
   isCoinDetail = false,
   RowHeight,
   styleClass,
+  density = "standard",
 }) => {
   const [rows, setRows] = useState([]);
   const [error, setError] = useState(null);
   // hook to validate request on or off...
   const [request, setRequest] = useState(false);
+
   const getURL = (isCoinDetail) => {
     if (isCoinDetail) {
       return `https://api.coingecko.com/api/v3/coins/${params && params.id}`;
@@ -51,9 +53,10 @@ const ApiTable = ({
   }, []);
 
   return (
-    <Box sx={{ height: "100vh", width: "100vw" }}>
+    <Box>
       <ErrorBoundary>
-        <DataGrid
+        <StyledDataGrid
+          density={density}
           rows={rows}
           error={error}
           columns={columns}
@@ -68,13 +71,19 @@ const ApiTable = ({
           experimentalFeatures={{ newEditingApi: true }}
           sx={styleClass}
           getRowHeight={() => RowHeight}
+          components={{
+            Pagination: CustomPagination,
+          }}
+          getRowClassName={(params) =>
+            params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+          }
         />
       </ErrorBoundary>
     </Box>
   );
 };
 
-ApiTable.propTypes = {
+CoinResponse.propTypes = {
   columns: PropTypes.array,
   apiEndPoint: PropTypes.string,
   page: PropTypes.number,
@@ -84,5 +93,7 @@ ApiTable.propTypes = {
   isCoinDetail: PropTypes.bool,
   RowHeight: PropTypes.string,
   styleClass: PropTypes.object,
+  density: PropTypes.string,
 };
-export default ApiTable;
+
+export default CoinResponse;
